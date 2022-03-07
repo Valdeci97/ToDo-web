@@ -14,3 +14,11 @@ export const FilterArea = styled.div`
     border: none;
   }
 `;
+
+export const ContentArea = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 10px 0;
+  width: 100%;
+`;
