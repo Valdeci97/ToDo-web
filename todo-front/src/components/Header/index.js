@@ -4,7 +4,7 @@ import * as S from './styles';
 import logo from '../../assets/logo-light.png';
 import bell from '../../assets/bell-light.png';
 
-export default function Header() {
+export default function Header({ lateTasks, clickNotification }) {
   return (
     <S.Container>
       <S.LeftSide>
@@ -17,10 +17,10 @@ export default function Header() {
         <span className="pipe" />
         <a href="#">SINCRONIZAR CELULAR</a>
         <span className="pipe" />
-        <a href="#" id="notification">
+        <button onClick={ clickNotification } id="notification">
           <img src={ bell } alt="Notificação" />
-          <span>5</span>
-        </a>
+          <span>{ lateTasks }</span>
+        </button>
       </S.RightSide>
     </S.Container>
   );

@@ -40,6 +40,9 @@ export const RightSide = styled.div`
   }
 
   #notification {
+    background: none;
+    border: none;
+    
     img {
       width: 40px;
       heigth: 40px;

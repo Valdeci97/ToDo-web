@@ -7,7 +7,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 150px;
-  width: 250px;
+  width: 220px;
   margin-bottom: 20px;
 
   &:hover {

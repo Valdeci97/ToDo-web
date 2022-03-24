@@ -15,6 +15,21 @@ export const FilterArea = styled.div`
   }
 `;
 
+export const TaskTitle = styled.div`
+  width: 100%;
+  border-bottom: 1px solid #000;
+  display: flex;
+  justify-content: center;
+
+  h3 {
+    background: #FFF;
+    color: #000;
+    padding: 0 10px;
+    position: relative;
+    top: 25px;
+  }
+`;
+
 export const ContentArea = styled.div`
   display: flex;
   flex-wrap: wrap;

@@ -11,8 +11,6 @@ const API = axios.create({
 const getTasks = async (filter) => {
   try {
     const info = translation(filter);
-    console.log(info);
-    console.log(API.baseURL);
     const { data } = await API.get(`/filter/${info}/11:11:11:11:11:11`);
     return data;
   } catch (err) {
@@ -20,4 +18,13 @@ const getTasks = async (filter) => {
   }
 };
 
-export default getTasks;
+const getLateTasks = async () => {
+  try {
+    const { data }  = await API.get('/filter/late/11:11:11:11:11:11');
+    return data.length;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export { getTasks, getLateTasks };
