@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App/App';
+import App from './pages/App';
+import Task from './pages/Task';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Task />
   </React.StrictMode>,
   document.getElementById('root')
 );

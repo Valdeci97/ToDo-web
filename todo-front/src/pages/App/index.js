@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import FilterCard from '../components/FilterCard';
-import TaskCard from '../components/TaskCard';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import FilterCard from '../../components/FilterCard';
+import TaskCard from '../../components/TaskCard';
 import * as S from './styles';
-import { getTasks, getLateTasks } from '../services';
+import { getTasks, getLateTasks } from '../../services';
 
 const filterOptions = ['Todos', 'Hoje', 'Semana', 'Mês', 'Ano'];
 
