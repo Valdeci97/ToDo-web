@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { v4 } from 'uuid';
+import { useLocation } from 'react-router-dom';
+import { format } from 'date-fns';
 
 import * as S from './styles';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import typeIcons from '../../utils/typeIcons';
-import { getLateTasks, createTask } from '../../services';
+import { getLateTasks, createTask, getTaskById } from '../../services';
 
 export default function Task() {
   const [lateTasks, setLateTasks] = useState(0);
@@ -18,11 +20,25 @@ export default function Task() {
   const [hour, setHour] = useState();
   const [macaddress, setMacaddress] = useState('11:11:11:11:11:11');
 
+  const location = useLocation();
+
   // TO-DO: Enviar informações da tarefa para cadastro. criar validação e função para o cadastro no mongo. Lembrar de tomar cuidado com a formatação de data. 20/04/12T14:30:00.000.
+
+  const getTask = useCallback(async () => {
+    const array = location.pathname.split('/');
+    const id = array[2];
+    const { type, title, description, when } = await getTaskById(id);
+    setType(type);
+    setTitle(title);
+    setDescription(description);
+    setDate(format(new Date(when), 'yyyy-MM-dd'));
+    setHour(format(new Date(when), 'HH:mm'));
+  }, [location.pathname]);
 
   useEffect(() => {
     getLateTasks().then((res) => setLateTasks(res));
-  }, []);
+    getTask();
+  }, [getTask]);
 
   const submitTask = async () => {
     const info = {
@@ -32,9 +48,8 @@ export default function Task() {
       description,
       date,
       hour,
-    }
+    };
     const result = await createTask(info);
-    console.log(result, 'linha 37 index/task');
     if ('error' in result) {
       return global.alert(result.error);
     }

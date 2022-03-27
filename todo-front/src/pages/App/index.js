@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -44,9 +45,11 @@ function App() {
       </S.TaskTitle>
       <S.ContentArea>
         {
-         tasks.map(({ type, title, when }) => {
+         tasks.map(({ _id, type, title, when }) => {
            return (
-             <TaskCard type={ type } title={ title } when={ when } />  
+             <Link to={`/task/${_id}`}>
+              <TaskCard type={ type } title={ title } when={ when } />  
+             </Link>
            );
          }) 
         }

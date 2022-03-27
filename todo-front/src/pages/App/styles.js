@@ -36,4 +36,9 @@ export const ContentArea = styled.div`
   justify-content: space-around;
   margin: 10px 0;
   width: 100%;
+
+  a {
+    text-decoration: none;
+    color: #000;
+  }
 `;

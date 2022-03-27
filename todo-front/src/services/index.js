@@ -38,7 +38,6 @@ const createTask = async (task) => {
       description,
       when,
     });
-    console.log(result, 'linha 14 index/services');
     return result;
   } catch (err) {
     console.error(err);
@@ -46,4 +45,9 @@ const createTask = async (task) => {
   }
 }
 
-export { getTasks, getLateTasks, createTask };
+const getTaskById = async (id) => {
+  const { data } = await API.get(`/${id}`);
+  return data;
+}
+
+export { getTasks, getLateTasks, createTask, getTaskById };

@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './pages/App';
-import Task from './pages/Task';
+import Navigation from './routes';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Task />
+    <Navigation />
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import * as S from './styles';
 import logo from '../../assets/logo-light.png';
@@ -11,9 +12,9 @@ export default function Header({ lateTasks, clickNotification }) {
         <img src={ logo } alt="Logo Todo" />
       </S.LeftSide>
       <S.RightSide>
-        <a href="#">INÍCIO</a>
+        <Link to="/">INÍCIO</Link>
         <span className="pipe" />
-        <a href="#">NOVA TAREFA</a>
+        <Link to="/task">NOVA TAREFA</Link>
         <span className="pipe" />
         <a href="#">SINCRONIZAR CELULAR</a>
         <span className="pipe" />
