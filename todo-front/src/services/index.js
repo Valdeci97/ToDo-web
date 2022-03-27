@@ -27,4 +27,23 @@ const getLateTasks = async () => {
   }
 };
 
-export { getTasks, getLateTasks };
+const createTask = async (task) => {
+  try {
+    const { macaddress, type, title, description, date, hour } = task;
+    const when = `${date}T${hour}:00.000`;
+    const result = await API.post('/', {
+      macaddress,
+      type,
+      title,
+      description,
+      when,
+    });
+    console.log(result, 'linha 14 index/services');
+    return result;
+  } catch (err) {
+    console.error(err);
+    return { error: err.response.data.error };
+  }
+}
+
+export { getTasks, getLateTasks, createTask };
