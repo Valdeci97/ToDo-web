@@ -50,4 +50,23 @@ const getTaskById = async (id) => {
   return data;
 }
 
-export { getTasks, getLateTasks, createTask, getTaskById };
+const updatetask = async (task, id) => {
+  try {
+    const { macaddress, type, title, description, date, hour, done } = task;
+    const when = `${date}T${hour}:00.000`;
+    const result = await API.put(`/${id}`, {
+      macaddress,
+      type,
+      title,
+      description,
+      when,
+      done,
+    });
+    return result;
+  } catch (err) {
+    console.error(err);
+    return { error: err.response.data.error };
+  };
+};
+
+export { getTasks, getLateTasks, createTask, getTaskById, updatetask };

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { v4 } from 'uuid';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import * as S from './styles';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import typeIcons from '../../utils/typeIcons';
-import { getLateTasks, createTask, getTaskById } from '../../services';
+import { getLateTasks, createTask, getTaskById, updatetask } from '../../services';
 
 export default function Task() {
   const [lateTasks, setLateTasks] = useState(0);
@@ -21,6 +21,7 @@ export default function Task() {
   const [macaddress, setMacaddress] = useState('11:11:11:11:11:11');
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   // TO-DO: Enviar informações da tarefa para cadastro. criar validação e função para o cadastro no mongo. Lembrar de tomar cuidado com a formatação de data. 20/04/12T14:30:00.000.
 
@@ -49,11 +50,20 @@ export default function Task() {
       date,
       hour,
     };
+    const array = location.pathname.split('/');
+    const id = array[2];
+    const taskExist = await getTaskById(id);
+    if (taskExist) {
+      await updatetask(info, id);
+      global.alert('Tarefa atualizada com sucesso');
+      return navigate('/');
+    }
     const result = await createTask(info);
     if ('error' in result) {
       return global.alert(result.error);
     }
-    return global.alert('Tarefa cadastrada com sucesso');
+    global.alert('Tarefa cadastrada com sucesso');
+    return navigate('/');
   }
 
   return (
