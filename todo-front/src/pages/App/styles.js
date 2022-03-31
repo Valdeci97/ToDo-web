@@ -36,6 +36,7 @@ export const ContentArea = styled.div`
   justify-content: space-around;
   margin: 10px 0;
   width: 100%;
+  margin-bottom: 70px;
 
   a {
     text-decoration: none;

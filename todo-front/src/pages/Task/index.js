@@ -8,6 +8,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import typeIcons from '../../utils/typeIcons';
 import { getLateTasks, createTask, getTaskById, updatetask } from '../../services';
+import validate from '../../utils/taskValidation';
 
 export default function Task() {
   const [lateTasks, setLateTasks] = useState(0);
@@ -28,12 +29,13 @@ export default function Task() {
   const getTask = useCallback(async () => {
     const array = location.pathname.split('/');
     const id = array[2];
-    const { type, title, description, when } = await getTaskById(id);
+    const { type, title, description, when, done: feito } = await getTaskById(id);
     setType(type);
     setTitle(title);
     setDescription(description);
     setDate(format(new Date(when), 'yyyy-MM-dd'));
     setHour(format(new Date(when), 'HH:mm'));
+    setDone(feito);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -50,6 +52,10 @@ export default function Task() {
       date,
       hour,
     };
+    const verify = validate(info);
+    if ('message' in verify) {
+      return global.alert(verify.message);
+    }
     const array = location.pathname.split('/');
     const id = array[2];
     const taskExist = await getTaskById(id);

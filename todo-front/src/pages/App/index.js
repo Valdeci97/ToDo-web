@@ -45,10 +45,10 @@ function App() {
       </S.TaskTitle>
       <S.ContentArea>
         {
-         tasks.map(({ _id, type, title, when }) => {
+         tasks.map(({ _id, type, title, when, done }) => {
            return (
              <Link to={`/task/${_id}`}>
-              <TaskCard type={ type } title={ title } when={ when } />  
+              <TaskCard type={ type } title={ title } when={ when } done={ done } />  
              </Link>
            );
          }) 
