@@ -64,7 +64,6 @@ const updatetask = async (task, id) => {
     });
     return result;
   } catch (err) {
-    console.error(err);
     return { error: err.response.data.error };
   };
 };

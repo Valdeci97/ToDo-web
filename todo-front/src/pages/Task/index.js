@@ -51,25 +51,31 @@ export default function Task() {
       description,
       date,
       hour,
+      done,
     };
     const verify = validate(info);
-    if ('message' in verify) {
+    if (verify.message) {
       return global.alert(verify.message);
     }
     const array = location.pathname.split('/');
     const id = array[2];
     const taskExist = await getTaskById(id);
     if (taskExist) {
-      await updatetask(info, id);
-      global.alert('Tarefa atualizada com sucesso');
-      return navigate('/');
+      const { error } = await updatetask(info, id);
+      if (error) {
+        return global.alert(error);
+      } else {
+        global.alert('Tarefa atualizada com sucesso');
+        return navigate('/');
+      }
     }
     const result = await createTask(info);
     if ('error' in result) {
       return global.alert(result.error);
+    } else {
+      global.alert('Tarefa cadastrada com sucesso');
+      return navigate('/');
     }
-    global.alert('Tarefa cadastrada com sucesso');
-    return navigate('/');
   }
 
   return (
