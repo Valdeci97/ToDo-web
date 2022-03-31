@@ -46,6 +46,7 @@ const createTask = async (task) => {
 }
 
 const getTaskById = async (id) => {
+  if (!id) return false;
   const { data } = await API.get(`/${id}`);
   return data;
 }
@@ -68,4 +69,13 @@ const updatetask = async (task, id) => {
   };
 };
 
-export { getTasks, getLateTasks, createTask, getTaskById, updatetask };
+const deleteTask = async (id) => {
+  try {
+    await API.delete(`${id}`);
+    return { message: 'Ok' };
+  } catch (err) {
+    return { error: err.response.data.error };
+  }
+};
+
+export { getTasks, getLateTasks, createTask, getTaskById, updatetask, deleteTask };

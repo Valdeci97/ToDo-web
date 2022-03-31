@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { v4 } from 'uuid';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import * as S from './styles';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import typeIcons from '../../utils/typeIcons';
-import { getLateTasks, createTask, getTaskById, updatetask } from '../../services';
+import { getLateTasks, createTask, getTaskById, updatetask, deleteTask } from '../../services';
 import validate from '../../utils/taskValidation';
+import usePathName from '../../utils/usePathname';
 
-export default function Task() {
+export default function Task(props) {
   const [lateTasks, setLateTasks] = useState(0);
   const [type, setType] = useState();
   const [id, setId] = useState();
@@ -21,22 +22,21 @@ export default function Task() {
   const [hour, setHour] = useState();
   const [macaddress, setMacaddress] = useState('11:11:11:11:11:11');
 
-  const location = useLocation();
   const navigate = useNavigate();
-
-  // TO-DO: Enviar informações da tarefa para cadastro. criar validação e função para o cadastro no mongo. Lembrar de tomar cuidado com a formatação de data. 20/04/12T14:30:00.000.
+  const pathname = usePathName();
 
   const getTask = useCallback(async () => {
-    const array = location.pathname.split('/');
-    const id = array[2];
-    const { type, title, description, when, done: feito } = await getTaskById(id);
-    setType(type);
-    setTitle(title);
-    setDescription(description);
-    setDate(format(new Date(when), 'yyyy-MM-dd'));
-    setHour(format(new Date(when), 'HH:mm'));
-    setDone(feito);
-  }, [location.pathname]);
+    setId(pathname);
+    if (id) {
+      const { type, title, description, when, done: feito } = await getTaskById(id);
+      setType(type);
+      setTitle(title);
+      setDescription(description);
+      setDate(format(new Date(when), 'yyyy-MM-dd'));
+      setHour(format(new Date(when), 'HH:mm'));
+      setDone(feito);
+    }
+  }, [id, pathname]);
 
   useEffect(() => {
     getLateTasks().then((res) => setLateTasks(res));
@@ -57,8 +57,6 @@ export default function Task() {
     if (verify.message) {
       return global.alert(verify.message);
     }
-    const array = location.pathname.split('/');
-    const id = array[2];
     const taskExist = await getTaskById(id);
     if (taskExist) {
       const { error } = await updatetask(info, id);
@@ -74,6 +72,17 @@ export default function Task() {
       return global.alert(result.error);
     } else {
       global.alert('Tarefa cadastrada com sucesso');
+      return navigate('/');
+    }
+  }
+
+  const deleteHandler = async () => {
+    const confirmation = window.confirm('Você realmente quer excluir essa tarefa?');
+    console.log(confirmation)
+    if (confirmation === true) {
+      const result = await deleteTask(id);
+      const response = result.message ? 'Tarefa excluída com sucesso!' : result.error;
+      global.alert(response);
       return navigate('/');
     }
   }
@@ -128,7 +137,7 @@ export default function Task() {
               <input type="checkbox" checked={ done }  onChange={() => setDone(!done)} />
             </label>
           </div>
-          <button type="button">Excluir</button>
+          { id && <button type="button" onClick={ deleteHandler }>Excluir</button> }
         </S.Options>
         <S.Save>
           <button type="button" onClick={ submitTask }>Salvar</button>
