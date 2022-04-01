@@ -1,4 +1,5 @@
 import React from 'react';
+import Qr from 'qrcode.react';
 
 import * as S from './styles';
 import Header from '../../components/Header';
@@ -10,10 +11,15 @@ export default function QrCode() {
       <Header />
       <S.Content>
         <h1>Capture o Qrcode pelo app</h1>
-        <S.QrCode>
-          
-        </S.QrCode>
         <span>Suas atividades serão sincronizadas com as do celular.</span>
+        <S.QrCode>
+          <Qr value="getmacaddress" size={ 250 } />
+        </S.QrCode>
+        <S.ValidateCode>
+          <span>Digite o código recebido</span>
+          <input type="text" />
+          <button type="button">SINCRONIZAR</button>
+        </S.ValidateCode>
       </S.Content>
       <Footer />
     </S.Container>
