@@ -7,12 +7,11 @@ import * as S from './styles';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import typeIcons from '../../utils/typeIcons';
-import { getLateTasks, createTask, getTaskById, updatetask, deleteTask } from '../../services';
+import { createTask, getTaskById, updatetask, deleteTask } from '../../services';
 import validate from '../../utils/taskValidation';
 import usePathName from '../../utils/usePathname';
 
 export default function Task(props) {
-  const [lateTasks, setLateTasks] = useState(0);
   const [type, setType] = useState();
   const [id, setId] = useState();
   const [done, setDone] = useState(false);
@@ -39,7 +38,6 @@ export default function Task(props) {
   }, [id, pathname]);
 
   useEffect(() => {
-    getLateTasks().then((res) => setLateTasks(res));
     getTask();
   }, [getTask]);
 
@@ -89,7 +87,7 @@ export default function Task(props) {
 
   return (
     <S.Container>
-      <Header lateTasks={ lateTasks } />
+      <Header />
       <S.Form>
         <S.TypeIcons>
           { typeIcons.map((icon, index) =>

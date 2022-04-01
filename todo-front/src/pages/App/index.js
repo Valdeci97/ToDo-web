@@ -6,18 +6,16 @@ import Footer from '../../components/Footer';
 import FilterCard from '../../components/FilterCard';
 import TaskCard from '../../components/TaskCard';
 import * as S from './styles';
-import { getTasks, getLateTasks } from '../../services';
+import { getTasks } from '../../services';
 
 const filterOptions = ['Todos', 'Hoje', 'Semana', 'Mês', 'Ano'];
 
 function App() {
   const [isActive, setIsActive] = useState('Todos');
   const [tasks, setTasks] = useState([]);
-  const [late, setLate] = useState(0);
 
   useEffect(() => {
     getTasks(isActive).then((res) => setTasks(res));
-    getLateTasks().then((res) => setLate(res));
   }, [isActive]);
 
   const bellHandler = () => {
@@ -26,7 +24,7 @@ function App() {
 
   return (
     <S.Container>
-      <Header lateTasks={ late } clickNotification={ bellHandler } />
+      <Header clickNotification={ bellHandler } />
       <S.FilterArea>
         {
           filterOptions.map((element, index) =>
